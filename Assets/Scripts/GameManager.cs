@@ -2,7 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
+public class GameOver : UnityEvent<bool>
+{
+}
 public class GameManager : SingletonBehavior<GameManager>
 {
     private int funnelsToFIll = 1;
@@ -10,6 +14,8 @@ public class GameManager : SingletonBehavior<GameManager>
     [SerializeField]
     private int totalBalls = 0;
     private List<BallFunnel> ballFunnels = new List<BallFunnel>();
+    
+    public static GameOver gameOver = new GameOver();
     
     public override void Awake()
     {
@@ -23,6 +29,26 @@ public class GameManager : SingletonBehavior<GameManager>
     private void OnAnnounceBallInFunnel()
     {
         totalBalls--;
+        if (totalBalls == 0)
+        {
+            CheckGameOver();
+        }
+    }
+
+    private void CheckGameOver()
+    {
+        for (int i = 0; i < ballFunnels.Count; i++)
+        {
+            if (!ballFunnels[i].isFull)
+            {
+                gameOver.Invoke(false);
+                Debug.Log("Level failed!");
+                return;
+            }
+        }
+        gameOver.Invoke(true);
+        Debug.Log("Level won!");
+        
     }
 
     private void OnAnnounceBallSpawned()
