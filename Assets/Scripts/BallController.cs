@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using GameData;
+using UnityEngine.Events;
 
 public class BallController : MonoBehaviour
 {
@@ -9,6 +8,11 @@ public class BallController : MonoBehaviour
     private float moveChangeRange = 0.4f;
     private float forceMultiplier = 10f;
 
+    private bool isActive = false;
+    
+    
+    public static UnityEvent announceInFunnel = new UnityEvent();
+    public static UnityEvent announceSpawned = new UnityEvent();
     private void Awake()
     {
         body = GetComponent<Rigidbody>();
@@ -19,7 +23,10 @@ public class BallController : MonoBehaviour
         InputController.inputStartEvent.AddListener(HandleTouchStarted);
         InputController.inputChangeEvent.AddListener(HandleTouchMoved);
         InputController.inputEndEvent.AddListener(HandleTouchEnded);
-        
+        announceSpawned.Invoke();
+
+        isActive = true;
+
     }
 
     public void Init (Vector3 pos, float scaleFactor)
@@ -43,10 +50,22 @@ public class BallController : MonoBehaviour
     private void HandleTouchStarted(Vector3 arg0)
     {
     }
-
+    
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!isActive)
+            return;
+        
+        if (other.CompareTag(ObjectTags.ballFunnelTag))
+        {
+            isActive = false;
+            announceInFunnel.Invoke();
+        }
+    }
 
     private void OnDestroy()
     {
+        announceInFunnel.Invoke();
         InputController.inputStartEvent.RemoveListener(HandleTouchStarted);
         InputController.inputChangeEvent.RemoveListener(HandleTouchMoved);
         InputController.inputEndEvent.RemoveListener(HandleTouchEnded);

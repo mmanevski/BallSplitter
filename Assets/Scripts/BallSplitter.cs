@@ -1,20 +1,21 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using GameData;
 using TMPro;
 using UnityEngine;
-using Random = UnityEngine.Random;
+using UnityEngine.Events;
 
+public class RequestBalls : UnityEvent<int, SpawnArea>
+{
+}
 public class BallSplitter : MonoBehaviour
 {
-    
-    public GameObject ballPrefab;
-    public BoxCollider spawnArea;
     public TextMeshPro multiplierText;
     
     public int ballsToSplit = 30;
+    public SpawnArea spawnArea;
 
-    public float minScale = 0.125f;
+    public static RequestBalls requestBalls = new RequestBalls();
 
     private void Start()
     {
@@ -23,41 +24,16 @@ public class BallSplitter : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Ball"))
+        if (other.CompareTag(ObjectTags.ballTag))
         {
             Vector3 _pos = other.transform.position;
-            float _scaleFactor = other.transform.localScale.x;
-
-            _scaleFactor = Mathf.Clamp(_scaleFactor * 0.75f, 0.125f, 0.5f);
             
             Destroy(other.gameObject);
-
-            StartCoroutine(SpawnBall(_pos, _scaleFactor));
+            requestBalls.Invoke(ballsToSplit, spawnArea);
 
 
             GetComponent<Collider>().enabled = false;
 
         }
-    }
-
-    private IEnumerator SpawnBall(Vector3 _pos, float _scaleFactor)
-    {
-        for (int i = 0; i < ballsToSplit; i++)
-        {
-            bool canSpawnHere = false;
-
-            Vector3 spawnPos = new Vector3();
-
-            float spawnPosZBound = _pos.z + spawnArea.size.z*0.5f;
-            float spawnPosYBound = _pos.y + spawnArea.size.y*0.5f;
-
-            float spawnPosZ = Random.Range(-spawnPosZBound, spawnPosZBound);
-            spawnPos = new Vector3(1f, spawnArea.transform.position.y, spawnPosZ);
-
-            BallController _newBall = Instantiate(ballPrefab, spawnPos, Quaternion.identity, PlayAreaController.Instance.transform).GetComponent<BallController>();
-            _newBall.Init(spawnPos, _scaleFactor);
-            yield return new WaitForSeconds(0.05f);
-        }
-
     }
 }

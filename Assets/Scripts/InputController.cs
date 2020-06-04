@@ -3,7 +3,8 @@ using UnityEngine.Events;
 
 public class InputChangeEvent : UnityEvent<Vector3>
 {
-}public class InputStartEvent : UnityEvent<Vector3>
+}
+public class InputStartEvent : UnityEvent<Vector3>
 {
 }
 public class InputEndEvent : UnityEvent<Vector3>

@@ -217,7 +217,7 @@ GameObject:
   - component: {fileID: 7732850407816761119}
   - component: {fileID: 7732850407816761104}
   - component: {fileID: 7732850407816761105}
-  - component: {fileID: 7732850407816761118}
+  - component: {fileID: 355880082}
   m_Layer: 0
   m_Name: BallSplitter
   m_TagString: Untagged
@@ -301,7 +301,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7732850407816761118
+--- !u!114 &355880082
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -310,16 +310,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7732850407816761107}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0678cd58f39e4156a1842c7244cdbc4, type: 3}
+  m_Script: {fileID: 11500000, guid: 61b607ae1cc4b7d49aed118288582c07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ballPrefab: {fileID: 6256051652010156796, guid: 2a0b2c4d195484fe7bad21a5b7e7970e,
-    type: 3}
-  spawnArea: {fileID: 7732850408724189941}
-  multiplierText: {fileID: 8501530002209674702}
-  ballsToSplit: 3
-  colliders: []
-  minScale: 0.125
+  multiplierText: {fileID: 0}
+  ballsToSplit: 30
+  spawnArea: {fileID: 1772813263}
 --- !u!1 &7732850408724189929
 GameObject:
   m_ObjectHideFlags: 0
@@ -332,6 +328,7 @@ GameObject:
   - component: {fileID: 7732850408724189942}
   - component: {fileID: 7732850408724189943}
   - component: {fileID: 7732850408724189941}
+  - component: {fileID: 1772813263}
   m_Layer: 0
   m_Name: SpawnArea
   m_TagString: Untagged
@@ -413,3 +410,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.0000002, y: 1.0000002, z: 1.0000004}
   m_Center: {x: 0, y: 0.00000023841858, z: -0.00000023841858}
+--- !u!114 &1772813263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7732850408724189929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41ebcfbddf63a8745891e470b71ecb67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftBoundry: 0
+  upperBoundry: 0
