@@ -7,7 +7,7 @@ public class BallController : MonoBehaviour
 {
     private Rigidbody body;
     private float moveChangeRange = 0.4f;
-    private float forceMultyplier = 10f;
+    private float forceMultiplier = 10f;
 
     private void Awake()
     {
@@ -22,10 +22,9 @@ public class BallController : MonoBehaviour
         
     }
 
-    public void Init (Vector3 pos)
+    public void Init (Vector3 pos, float scaleFactor)
     {
-        transform.position = pos;
-        
+        transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
     }
 
     private void HandleTouchEnded(Vector3 arg0)
