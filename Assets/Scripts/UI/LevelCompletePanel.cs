@@ -15,11 +15,11 @@ public class LevelCompletePanel : MonoBehaviour
         nextLevelButton.onClick.AddListener(NextLevelPressed);
     }
 
-    public void Open()
+    public void Toggle(bool toggle)
     {
-        gameObject.SetActive(true);
+        gameObject.SetActive(toggle);
     }
-    
+
     public void NextLevelPressed()
     {
         requestNextLevel.Invoke();

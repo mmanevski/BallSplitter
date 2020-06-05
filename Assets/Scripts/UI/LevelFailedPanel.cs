@@ -15,9 +15,9 @@ public class LevelFailedPanel : MonoBehaviour
         retryLevelButton.onClick.AddListener(RetryLevelPressed);
     }
 
-    public void Open()
+    public void Toggle(bool toggle)
     {
-        gameObject.SetActive(true);
+        gameObject.SetActive(toggle);
     }
     
     public void RetryLevelPressed()

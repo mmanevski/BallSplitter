@@ -1,16 +1,14 @@
 ﻿using System;
 using UnityEngine;
+using Zenject;
 
 public class PlayAreaController : SingletonBehavior<PlayAreaController>
 {
+    [Inject] private GameParameters gameParameters; 
     
     public Transform playAreaHolder;
     private Vector3 startRotation;
 
-    private float rotationFactor = 30f;
-    
-    private float moveChangeRange = 0.4f;
-    
 
     // Start is called before the first frame update
     void Start()
@@ -28,8 +26,8 @@ public class PlayAreaController : SingletonBehavior<PlayAreaController>
 
     private void HandleTouchMoved(Vector3 moveChange)
     {
-        float _moveChange = Mathf.Clamp(moveChange.x, -moveChangeRange, moveChangeRange);
-        float _rotX = startRotation.x + _moveChange *rotationFactor;
+        float _moveChange = Mathf.Clamp(moveChange.x, -gameParameters.moveChangeRange, gameParameters.moveChangeRange);
+        float _rotX = startRotation.x + _moveChange *gameParameters.rotationFactor;
         
         playAreaHolder.rotation = Quaternion.Euler(startRotation.x, -_rotX, startRotation.z);
         

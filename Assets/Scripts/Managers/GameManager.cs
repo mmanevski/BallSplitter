@@ -29,12 +29,7 @@ public class GameManager : MonoBehaviour
 
     public void Awake()
     {
-        BallFunnel.announceBallInFunnel.AddListener(OnAnnounceBallInFunnel);
-        BallController.announceSpawned.AddListener(OnAnnounceBallSpawned);
-        BallController.announceBallDespawned.AddListener(OnAnnounceBallDespawned);
-        LevelCompletePanel.requestNextLevel.AddListener(OnRequestNextLevel);
-        LevelFailedPanel.requestLevelReset.AddListener(OnRequestLevelReset);
-        LevelManager.levelLoaded.AddListener(OnLevelLoaded);
+        AddListeners();
     }
 
     private void OnLevelLoaded(Level level)
@@ -55,7 +50,15 @@ public class GameManager : MonoBehaviour
 
     private void OnRequestNextLevel()
     {
-        Debug.Log("Move To Next Level");
+        ResetGame();
+        rewquestNewLevel.Invoke();
+    }
+
+    private void ResetGame()
+    {
+        totalBalls = 0;
+        score = 0;
+        updateScore.Invoke(score);
     }
 
     private void OnAnnounceBallDespawned()
@@ -85,6 +88,21 @@ public class GameManager : MonoBehaviour
     }
 
     public void OnDestroy()
+    {
+        RemoveListeners();
+
+    }
+
+    private void AddListeners()
+    {
+        BallFunnel.announceBallInFunnel.AddListener(OnAnnounceBallInFunnel);
+        BallController.announceSpawned.AddListener(OnAnnounceBallSpawned);
+        BallController.announceBallDespawned.AddListener(OnAnnounceBallDespawned);
+        LevelCompletePanel.requestNextLevel.AddListener(OnRequestNextLevel);
+        LevelFailedPanel.requestLevelReset.AddListener(OnRequestLevelReset);
+        LevelManager.levelLoaded.AddListener(OnLevelLoaded);
+    }
+    private void RemoveListeners()
     {
         BallFunnel.announceBallInFunnel.RemoveListener(OnAnnounceBallInFunnel);
         BallController.announceSpawned.RemoveListener(OnAnnounceBallSpawned);

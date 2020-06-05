@@ -10,21 +10,29 @@ public class UIManager : MonoBehaviour
     
     public void Awake()
     {
+        GameManager.rewquestNewLevel.AddListener(OnRequestNewLevel);
         GameManager.gameOver.AddListener(OnGameOver);
+    }
+
+    private void OnRequestNewLevel()
+    {
+        levelCompletePanel.Toggle(false);
+        levelFailedPanel.Toggle(false);
     }
 
     private void OnGameOver(bool isWin)
     {
         if (isWin)
-            levelCompletePanel.Open();
+            levelCompletePanel.Toggle(true);
         else
-            levelFailedPanel.Open();
+            levelFailedPanel.Toggle(true);
         
     }
     
     public void OnDestroy()
     {
-        GameManager.gameOver.AddListener(OnGameOver);
+        GameManager.gameOver.RemoveListener(OnGameOver);
+        GameManager.rewquestNewLevel.RemoveListener(OnRequestNewLevel);
     }
 
 }

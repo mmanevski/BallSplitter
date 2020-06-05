@@ -26,8 +26,8 @@ public class BallSpawner : MonoBehaviour
 
     private void OnRequestBalls(int numOfBalls, SpawnArea spawnArea, bool activate)
     {
-        float _newScaleFactor = numOfBalls <= 10 ? currentBallScale * 0.5f : currentBallScale * 0.25f;
-        _newScaleFactor = Mathf.Clamp(_newScaleFactor, gameParameters.maxBallScale, gameParameters.minBallScale);
+        float _newScaleFactor = numOfBalls <= 4 ? currentBallScale * 0.8f : currentBallScale * 0.5f;
+        _newScaleFactor = Mathf.Clamp(_newScaleFactor, gameParameters.minBallScale, gameParameters.maxBallScale);
         currentBallScale = _newScaleFactor;
 
         StartCoroutine(SpawnBalls(numOfBalls, spawnArea, _newScaleFactor, activate));
