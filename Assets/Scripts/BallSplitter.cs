@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class RequestBalls : UnityEvent<int, SpawnArea>
+public class RequestBalls : UnityEvent<int, SpawnArea, bool>
 {
 }
 public class BallSplitter : MonoBehaviour
@@ -28,8 +28,8 @@ public class BallSplitter : MonoBehaviour
         {
             Vector3 _pos = other.transform.position;
             
-            Destroy(other.gameObject);
-            requestBalls.Invoke(ballsToSplit, spawnArea);
+            other.GetComponent<BallController>().Despawn();
+            requestBalls.Invoke(ballsToSplit, spawnArea, true);
 
 
             GetComponent<Collider>().enabled = false;

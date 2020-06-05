@@ -12,24 +12,21 @@ public class BallSpawner : MonoBehaviour
     private void Awake()
     {
         BallSplitter.requestBalls.AddListener(OnRequestBalls);
+        BallSpawnPoint.requestSingleSpawn.AddListener(OnRequestSingleSpawn);
     }
 
-    private void OnRequestBalls(int numOfBalls, SpawnArea spawnArea)
+    private void OnRequestSingleSpawn(Vector3 pos, float scaleFactor, bool activate = true)
     {
-        StartCoroutine(SplitBalls(numOfBalls, spawnArea, 0.25f));
+        BallController _newBall = Instantiate(ballPrefab, pos, Quaternion.identity, PlayAreaController.Instance.transform).GetComponent<BallController>();
+        _newBall.Init(pos, scaleFactor, activate);
     }
 
-    private void SpawnBalls(int numOfBalls, Vector3 pos, float _scaleFactor)
+    private void OnRequestBalls(int numOfBalls, SpawnArea spawnArea, bool activate)
     {
-        for (int i = 0; i < numOfBalls; i++)
-        {
-            //TODO: Refactor
-            BallController _newBall = Instantiate(ballPrefab, pos, Quaternion.identity, PlayAreaController.Instance.transform).GetComponent<BallController>();
-            _newBall.Init(pos, _scaleFactor);
-        }
+        StartCoroutine(SpawnBalls(numOfBalls, spawnArea, 0.25f, activate));
     }
 
-    private IEnumerator SplitBalls(int numOfBalls, SpawnArea spawnArea, float _scaleFactor)
+    private IEnumerator SpawnBalls(int numOfBalls, SpawnArea spawnArea, float _scaleFactor, bool activate = true)
     {
         for (int i = 0; i < numOfBalls; i++)
         {
@@ -40,10 +37,10 @@ public class BallSpawner : MonoBehaviour
 
             float spawnPosZ = Random.Range(spawnArea.transform.position.z - spawnPosZBound, spawnArea.transform.position.z + spawnPosZBound);
 
-            spawnPos = new Vector3(1f, spawnArea.transform.position.y, spawnPosZ);
+            spawnPos = new Vector3(spawnArea.transform.position.x, spawnArea.transform.position.y, spawnPosZ);
 
             BallController _newBall = Instantiate(ballPrefab, spawnPos, Quaternion.identity, PlayAreaController.Instance.transform).GetComponent<BallController>();
-            _newBall.Init(spawnPos, _scaleFactor);
+            _newBall.Init(spawnPos, _scaleFactor, activate);
             yield return new WaitForSeconds(0.05f);
         }
 

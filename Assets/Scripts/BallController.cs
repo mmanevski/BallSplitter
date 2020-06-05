@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using GameData;
 using UnityEngine.Events;
+using UnityEngine.WSA;
 using Zenject;
 
 public class BallController : MonoBehaviour
@@ -17,6 +18,7 @@ public class BallController : MonoBehaviour
     private void Awake()
     {
         body = GetComponent<Rigidbody>();
+        body.constraints = RigidbodyConstraints.FreezeAll;
     }
     
     void Start()
@@ -26,12 +28,14 @@ public class BallController : MonoBehaviour
         InputController.inputEndEvent.AddListener(HandleTouchEnded);
         announceSpawned.Invoke();
 
-        isActive = true;
-
     }
 
-    public void Init (Vector3 pos, float scaleFactor)
+    public void Init (Vector3 pos, float scaleFactor, bool activate)
     {
+        if (activate)
+        {
+            ActivateRigidbody();
+        }
         transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
     }
 
@@ -50,13 +54,28 @@ public class BallController : MonoBehaviour
 
     private void HandleTouchStarted(Vector3 arg0)
     {
+        ActivateRigidbody();
     }
-    
+
+    private void ActivateRigidbody()
+    {
+        if (!isActive)
+        {
+            isActive = true;
+            body.constraints = RigidbodyConstraints.None;
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (!isActive)
             return;
-        
+    }
+
+    public void Despawn()
+    {
+        //announceBallDespawned.Invoke();
+        Destroy(gameObject, 0.1f);
     }
 
     private void OnDestroy()
