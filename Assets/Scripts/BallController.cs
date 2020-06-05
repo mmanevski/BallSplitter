@@ -1,17 +1,18 @@
 ﻿using UnityEngine;
 using GameData;
 using UnityEngine.Events;
+using Zenject;
 
 public class BallController : MonoBehaviour
 {
+    [Inject] private GameParameters gameParameters;
+    
     private Rigidbody body;
-    private float moveChangeRange = 0.4f;
-    private float forceMultiplier = 10f;
 
     private bool isActive = false;
     
     
-    public static UnityEvent announceInFunnel = new UnityEvent();
+    public static UnityEvent announceBallDespawned = new UnityEvent();
     public static UnityEvent announceSpawned = new UnityEvent();
     private void Awake()
     {
@@ -41,8 +42,8 @@ public class BallController : MonoBehaviour
 
     private void HandleTouchMoved(Vector3 moveChange)
     {
-        float _moveChange = Mathf.Clamp(moveChange.x, -moveChangeRange, moveChangeRange);
-        float _addedForce = _moveChange * 10f;
+        float _moveChange = Mathf.Clamp(moveChange.x, -gameParameters.moveChangeRange, gameParameters.moveChangeRange);
+        float _addedForce = _moveChange * gameParameters.forceMultiplier;
         
         body.AddForce(new Vector3(0f, 0f, _addedForce), ForceMode.Impulse);
     }
@@ -56,16 +57,11 @@ public class BallController : MonoBehaviour
         if (!isActive)
             return;
         
-        if (other.CompareTag(ObjectTags.ballFunnelTag))
-        {
-            isActive = false;
-            announceInFunnel.Invoke();
-        }
     }
 
     private void OnDestroy()
     {
-        announceInFunnel.Invoke();
+        announceBallDespawned.Invoke();
         InputController.inputStartEvent.RemoveListener(HandleTouchStarted);
         InputController.inputChangeEvent.RemoveListener(HandleTouchMoved);
         InputController.inputEndEvent.RemoveListener(HandleTouchEnded);

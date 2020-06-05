@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -9,8 +6,7 @@ public class BallSpawner : MonoBehaviour
 {
     
     public GameObject ballPrefab;
-
-
+    
     public float minScale = 0.125f;
 
     private void Awake()
@@ -27,6 +23,7 @@ public class BallSpawner : MonoBehaviour
     {
         for (int i = 0; i < numOfBalls; i++)
         {
+            //TODO: Refactor
             BallController _newBall = Instantiate(ballPrefab, pos, Quaternion.identity, PlayAreaController.Instance.transform).GetComponent<BallController>();
             _newBall.Init(pos, _scaleFactor);
         }
@@ -42,8 +39,7 @@ public class BallSpawner : MonoBehaviour
             float spawnPosYBound = spawnArea.upperBoundry;
 
             float spawnPosZ = Random.Range(spawnArea.transform.position.z - spawnPosZBound, spawnArea.transform.position.z + spawnPosZBound);
-            Debug.Log(spawnPosZ);
-            
+
             spawnPos = new Vector3(1f, spawnArea.transform.position.y, spawnPosZ);
 
             BallController _newBall = Instantiate(ballPrefab, spawnPos, Quaternion.identity, PlayAreaController.Instance.transform).GetComponent<BallController>();
