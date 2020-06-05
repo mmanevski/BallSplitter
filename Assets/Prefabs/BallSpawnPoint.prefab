@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2921301139909543490}
   - component: {fileID: 8055626967709448895}
+  - component: {fileID: -7535061260053290616}
   m_Layer: 0
   m_Name: BallSpawnPoint
   m_TagString: Untagged
@@ -41,5 +42,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 41b2b59f730665b4d818401e126eddb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-7535061260053290616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7797627154571440213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0871f748c48352f4593c03df6c2009ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

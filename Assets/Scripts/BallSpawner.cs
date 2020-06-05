@@ -1,14 +1,15 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
+using Zenject;
 using Random = UnityEngine.Random;
 
 public class BallSpawner : MonoBehaviour
 {
     
     public GameObject ballPrefab;
-    
-    public float minScale = 0.125f;
 
+    [Inject] private GameParameters gameParameters;
     private void Awake()
     {
         BallSplitter.requestBalls.AddListener(OnRequestBalls);
@@ -23,7 +24,9 @@ public class BallSpawner : MonoBehaviour
 
     private void OnRequestBalls(int numOfBalls, SpawnArea spawnArea, bool activate)
     {
-        StartCoroutine(SpawnBalls(numOfBalls, spawnArea, 0.25f, activate));
+        float _newScaleFactor = Mathf.Clamp( gameParameters.maxBallScale / numOfBalls, gameParameters.minBallScale,
+            gameParameters.maxBallScale);
+        StartCoroutine(SpawnBalls(numOfBalls, spawnArea, _newScaleFactor, activate));
     }
 
     private IEnumerator SpawnBalls(int numOfBalls, SpawnArea spawnArea, float _scaleFactor, bool activate = true)

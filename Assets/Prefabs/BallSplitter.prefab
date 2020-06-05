@@ -313,7 +313,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61b607ae1cc4b7d49aed118288582c07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiplierText: {fileID: 0}
+  multiplierText: {fileID: 8501530002209674702}
   ballsToSplit: 30
   spawnArea: {fileID: 1772813263}
 --- !u!1 &7732850408724189929
@@ -422,5 +422,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41ebcfbddf63a8745891e470b71ecb67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftBoundry: 0
+  rightBoundry: 0
   upperBoundry: 0
