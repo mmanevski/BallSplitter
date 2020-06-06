@@ -1,5 +1,11 @@
 ﻿namespace GameData
 {
+    public enum GameState
+    {
+        Playing,
+        GameOver
+    }
+
     public static class ObjectTags
     {
         public const string ballTag = "Ball";

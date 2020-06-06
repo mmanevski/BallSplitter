@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using GameData;
+using UnityEngine;
 using UnityEngine.Events;
 
 public class InputChangeEvent : UnityEvent<Vector3>
@@ -35,11 +36,15 @@ public class InputController : MonoBehaviour
 
     void InputListener_ReleaseScreen(Vector3 obj)
     {
+        if (GameManager.gameState == GameState.GameOver)
+            return;
         inputEndEvent.Invoke(startPos);
     }
 
     void InputListener_TouchScreen(Vector3 obj)
     {
+        if (GameManager.gameState == GameState.GameOver)
+            return;
         startPos = InputListener.InputViewportPosition;
         inputStartEvent.Invoke(startPos);
     }
@@ -47,15 +52,14 @@ public class InputController : MonoBehaviour
     
     private void FixedUpdate()
     {
-        float MaxDist = 2000f;
+        if (GameManager.gameState == GameState.GameOver)
+            return;
 
         if (InputListener.mouseDown)
         {
             endPos = InputListener.InputViewportPosition;
 
             MoveChange = endPos - startPos;
-            
-            //prevPoint = endPos;
             
             inputChangeEvent.Invoke(MoveChange);
         }

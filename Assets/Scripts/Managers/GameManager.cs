@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using GameData;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -15,6 +16,9 @@ public class UpdateScore : UnityEvent<int>
 
 public class GameManager : MonoBehaviour
 {
+    
+    public static GameState gameState;
+    
     [SerializeField]
     private int totalBalls = 0;
     private int score = 0;
@@ -35,6 +39,7 @@ public class GameManager : MonoBehaviour
     private void OnLevelLoaded(Level level)
     {
         currentLevel = level;
+        gameState = GameState.Playing;
     }
 
     public void Start()
@@ -80,6 +85,7 @@ public class GameManager : MonoBehaviour
     {
         bool isWin = currentLevel.CheckFunnelsFull();
         gameOver.Invoke(isWin);
+        gameState = GameState.GameOver;
     }
 
     private void OnAnnounceBallSpawned()
