@@ -12,4 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fc6c9435d7263844a34ec88fdbcd352, type: 3}
   m_Name: GameParameters
   m_EditorClassIdentifier: 
-  forceMultiplier: 10
+  minBallScale: 0.25
+  maxBallScale: 0.5
+  moveChangeRange: 0.5
+  forceMultiplier: 0.3
+  rotationFactor: 40
+  playAreaRotationRange: 20
