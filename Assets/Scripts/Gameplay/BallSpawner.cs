@@ -16,10 +16,13 @@ public class BallSpawner : MonoBehaviour
     {
         BallSplitter.requestBalls.AddListener(OnRequestBalls);
         BallSpawnPoint.requestSingleSpawn.AddListener(OnRequestSingleSpawn);
+        BallPortal.requestSingleSpawn.AddListener(OnRequestSingleSpawn);
     }
 
     private void OnRequestSingleSpawn(Vector3 pos, float scaleFactor, bool activate = true)
     {
+        
+        Debug.Log("SpawnSingle");
         BallController _newBall = Instantiate(ballPrefab, pos, Quaternion.identity, PlayAreaController.Instance.transform).GetComponent<BallController>();
         _newBall.Init(pos, scaleFactor, activate);
     }

@@ -164,7 +164,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dee7c53e72bf24fcc9de1668a00b7563, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  overrideLevelList: 1
+  overrideDefine: {fileID: 11400000, guid: 7d1937cf718557748a9c4906d99e171e, type: 2}
   playAreaHolder: {fileID: 886695721}
+  currentLevelObject: {fileID: 0}
 --- !u!1 &360020292
 GameObject:
   m_ObjectHideFlags: 0

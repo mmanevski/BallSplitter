@@ -14,8 +14,8 @@ public class SpawnArea : MonoBehaviour
     {
         spawnAreaCollider = GetComponent<Collider>();
         //TODO: find out how the boundries actually should work
-        rightBoundry = transform.position.z + spawnAreaCollider.bounds.size.z;
-        upperBoundry = transform.position.y + spawnAreaCollider.bounds.size.y;
+        rightBoundry = transform.position.z + spawnAreaCollider.bounds.size.z*0.5f;
+        upperBoundry = transform.position.y + spawnAreaCollider.bounds.size.y*0.5f;
     }
 
     // Update is called once per frame

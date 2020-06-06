@@ -68,14 +68,14 @@ public class BallController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!isActive)
-            return;
+     
     }
 
     public void Despawn()
     {
         //announceBallDespawned.Invoke();
         Destroy(gameObject, 0.1f);
+        Debug.Log("Destroyed");
     }
 
     private void OnDestroy()

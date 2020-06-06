@@ -10,16 +10,20 @@ public class LevelLoaded : UnityEvent<Level>
 
 public class LevelManager : MonoBehaviour
 {
-    [Inject] private LevelsList levelsList;
-    private int currentLevel = -1;
+    public bool overrideLevelList = true;
+    public LevelDefine overrideDefine;
     
     public Transform playAreaHolder;
+    public GameObject currentLevelObject;
+    
+    [Inject] private LevelsList levelsList;
+    private int currentLevel = -1;
     private Vector3 startRotation;
     private LevelDefine currentLevelDefine;
     
     public static LevelLoaded levelLoaded = new LevelLoaded();
 
-    public GameObject currentLevelObject;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -37,6 +41,9 @@ public class LevelManager : MonoBehaviour
         if (currentLevel >= levelsList.allLevels.Count)
             currentLevel = 0;
         currentLevelDefine = levelsList.allLevels[currentLevel];
+
+        if (overrideLevelList)
+            currentLevelDefine = overrideDefine;
 
         currentLevelObject = Instantiate(currentLevelDefine.level, playAreaHolder);
         Level _newLevel = currentLevelObject.GetComponent<Level>();
