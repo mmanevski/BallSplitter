@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using GameData;
 using UnityEngine;
 using UnityEngine.Events;
 using Zenject;
@@ -15,6 +17,10 @@ public class PlayAreaController : SingletonBehavior<PlayAreaController>
     public Transform playAreaHolder;
     private Vector3 startRotation;
     private float startRotY;
+
+    public Level currentLevel;
+
+    private bool isFlipped = false;
     
     public static AnnounceAngle announceAngle = new AnnounceAngle();
 
@@ -24,7 +30,13 @@ public class PlayAreaController : SingletonBehavior<PlayAreaController>
         InputController.inputStartEvent.AddListener(HandleTouchStarted);
         InputController.inputChangeEvent.AddListener(HandleTouchMoved);
         InputController.inputEndEvent.AddListener(HandleTouchEnded);
+        LevelManager.levelLoaded.AddListener(OnLevelLoaded);
         
+    }
+
+    private void OnLevelLoaded(Level level)
+    {
+        currentLevel = level;
     }
 
     private void HandleTouchEnded(Vector3 arg0)
@@ -34,19 +46,45 @@ public class PlayAreaController : SingletonBehavior<PlayAreaController>
 
     private void HandleTouchMoved(Vector3 moveChangeVec)
     {
-        float _moveChange = Mathf.Clamp(moveChangeVec.x, -gameParameters.moveChangeRange, gameParameters.moveChangeRange);
+        if (moveChangeVec.y > gameParameters.flipAreaTreshold && currentLevel.isFlippable)
+        {
+            StartCoroutine(FlipArea());
+            return;
+        }
         
+        
+        float _moveChange = Mathf.Clamp(moveChangeVec.x, -gameParameters.moveChangeRange, gameParameters.moveChangeRange);
+
         float _rotY = -startRotY + _moveChange *gameParameters.rotationFactor;
         _rotY = Utils.ClampAngle(-_rotY, -gameParameters.playAreaRotationRange, gameParameters.playAreaRotationRange);
-        Debug.Log("Rotation: " + _rotY);
         Vector3 _newRotation = new Vector3(startRotation.x, _rotY, startRotation.z);
-        
-        if (moveChangeVec.y > 0.5f)
-            playAreaHolder.eulerAngles = new Vector3(startRotation.x, _rotY, 180f);
 
         announceAngle.Invoke(_newRotation);
         playAreaHolder.eulerAngles = _newRotation;
 
+    }
+
+    IEnumerator FlipArea()
+    {
+        GameManager.gameState = GameState.Loading;
+        float flipTime = 0.3f;
+        float flipStep = 0.01f;
+        float elapsedTime = 0f;
+
+        float flipAngle = isFlipped ? 0f : 180f;
+        
+        Vector3 _newRotation = new Vector3(startRotation.x, startRotation.y, flipAngle);
+
+        while (elapsedTime < flipTime)
+        {
+            yield return new WaitForSeconds(flipStep);
+            elapsedTime = elapsedTime + flipStep;
+            playAreaHolder.eulerAngles = Vector3.Slerp(startRotation, _newRotation, elapsedTime/flipTime);
+        }
+        isFlipped = !isFlipped;
+        GameManager.gameState = GameState.Playing;
+
+        yield return null;
     }
 
     private void HandleTouchStarted(Vector3 arg0)
@@ -54,6 +92,15 @@ public class PlayAreaController : SingletonBehavior<PlayAreaController>
         startRotation = playAreaHolder.rotation.eulerAngles;
         startRotY = Utils.ClampAngle(startRotation.y, -gameParameters.playAreaRotationRange,
             gameParameters.playAreaRotationRange);
+    }
+    
+    void OnDestroy()
+    {
+        InputController.inputStartEvent.RemoveListener(HandleTouchStarted);
+        InputController.inputChangeEvent.RemoveListener(HandleTouchMoved);
+        InputController.inputEndEvent.RemoveListener(HandleTouchEnded);
+        LevelManager.levelLoaded.RemoveListener(OnLevelLoaded);
+        
     }
 
 }

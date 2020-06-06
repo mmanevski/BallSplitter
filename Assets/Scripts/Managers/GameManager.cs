@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
 {
     
     public static GameState gameState;
+    public static Level currentLevel;
     
     [SerializeField]
     private int totalBalls = 0;
@@ -25,7 +26,6 @@ public class GameManager : MonoBehaviour
     private List<BallFunnel> ballFunnels = new List<BallFunnel>();
     
     private LevelDefine currentLevelDefine;
-    private Level currentLevel;
 
     public static GameOver gameOver = new GameOver();
     public static UpdateScore updateScore = new UpdateScore();

@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class RequestBalls : UnityEvent<int, SpawnArea, bool>
+public class SplitBalls : UnityEvent<int, BallSplitter, bool>
 {
 }
 public class BallSplitter : MonoBehaviour
@@ -15,7 +15,7 @@ public class BallSplitter : MonoBehaviour
     public int ballsToSplit = 30;
     public SpawnArea spawnArea;
 
-    public static RequestBalls requestBalls = new RequestBalls();
+    public static SplitBalls splitBalls = new SplitBalls();
 
     private void Start()
     {
@@ -27,13 +27,13 @@ public class BallSplitter : MonoBehaviour
         if (other.CompareTag(ObjectTags.ballTag))
         {
             Vector3 _pos = other.transform.position;
+            BallController ballSplit = other.GetComponent<BallController>();
+            if (ballSplit.GetParentSplitter() != this)
+            {
+                ballSplit.Despawn();
+                splitBalls.Invoke(ballsToSplit, this, true);
+            }
             
-            other.GetComponent<BallController>().Despawn();
-            requestBalls.Invoke(ballsToSplit, spawnArea, true);
-
-
-            GetComponent<Collider>().enabled = false;
-
         }
     }
 }

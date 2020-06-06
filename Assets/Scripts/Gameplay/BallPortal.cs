@@ -19,7 +19,7 @@ public class BallPortal : MonoBehaviour
             spawnPos = new Vector3(exitArea.transform.position.x, exitArea.transform.position.y, spawnPosZ);
             
             other.GetComponent<BallController>().Despawn();
-            requestSingleSpawn.Invoke(spawnPos, other.transform.localScale.x, true);
+            requestSingleSpawn.Invoke(spawnPos, other.transform.localScale.x, true, GameManager.currentLevel.transform);
 
         }
     }

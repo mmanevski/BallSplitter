@@ -36,14 +36,14 @@ public class InputController : MonoBehaviour
 
     void InputListener_ReleaseScreen(Vector3 obj)
     {
-        if (GameManager.gameState == GameState.GameOver)
+        if (GameManager.gameState != GameState.Playing)
             return;
         inputEndEvent.Invoke(startPos);
     }
 
     void InputListener_TouchScreen(Vector3 obj)
     {
-        if (GameManager.gameState == GameState.GameOver)
+        if (GameManager.gameState != GameState.Playing)
             return;
         startPos = InputListener.InputViewportPosition;
         inputStartEvent.Invoke(startPos);
@@ -52,7 +52,7 @@ public class InputController : MonoBehaviour
     
     private void FixedUpdate()
     {
-        if (GameManager.gameState == GameState.GameOver)
+        if (GameManager.gameState != GameState.Playing)
             return;
 
         if (InputListener.mouseDown)

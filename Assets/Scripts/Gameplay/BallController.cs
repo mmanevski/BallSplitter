@@ -10,7 +10,7 @@ public class BallController : MonoBehaviour
     private Rigidbody body;
 
     private bool isActive = false;
-    
+    private BallSplitter parentSplitter;
     
     public static UnityEvent announceBallDespawned = new UnityEvent();
     public static UnityEvent announceSpawned = new UnityEvent();
@@ -28,10 +28,13 @@ public class BallController : MonoBehaviour
 
     }
 
-    public void Init (Vector3 pos, float scaleFactor, bool activate)
+    public void Init(Vector3 pos, float scaleFactor, bool activate, BallSplitter splitter = null)
     {
+        transform.localPosition = pos;
+        parentSplitter = splitter;
         if (activate)
         {
+            
             ActivateRigidbody();
         }
         transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
@@ -43,8 +46,6 @@ public class BallController : MonoBehaviour
         //float _moveChange = Mathf.Clamp(moveChange.x, -gameParameters.moveChangeRange, gameParameters.moveChangeRange);
         float _playAreaRotationY = Utils.WrapAngle(angle.y);
         float _addedForce = -_playAreaRotationY * gameParameters.forceMultiplier;
-        
-        Debug.Log("Added force: " + _addedForce + "PlayAreaRot: " + _playAreaRotationY);
         
         body.AddForce(new Vector3(0f, 0f, _addedForce), ForceMode.Impulse);
 
@@ -63,22 +64,20 @@ public class BallController : MonoBehaviour
             body.constraints = RigidbodyConstraints.None;
         }
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-     
-    }
-
     public void Despawn()
     {
         //announceBallDespawned.Invoke();
         Destroy(gameObject, 0.1f);
-        Debug.Log("Destroyed");
     }
 
     private void OnDestroy()
     {
         announceBallDespawned.Invoke();
         InputController.inputStartEvent.RemoveListener(HandleTouchStarted);
+    }
+
+    public BallSplitter GetParentSplitter()
+    {
+        return parentSplitter;
     }
 }

@@ -734,6 +734,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playAreaHolder: {fileID: 886695721}
+  currentLevel: {fileID: 0}
 --- !u!1 &942911974
 GameObject:
   m_ObjectHideFlags: 0

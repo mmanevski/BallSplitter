@@ -28,7 +28,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6174551813743962848}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 8.74}
+  m_LocalPosition: {x: 0, y: 0, z: 0.417}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7732850407816761106}
@@ -179,7 +179,7 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 17.478577, w: 0}
+  m_margin: {x: 0, y: 0, z: 0.886825, w: 0}
   m_textInfo:
     textComponent: {fileID: 8501530002209674702}
     characterCount: 3

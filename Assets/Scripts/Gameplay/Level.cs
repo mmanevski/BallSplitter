@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Level : MonoBehaviour
 {
+    public bool isFlippable = false;
     public List<BallSpawnPoint> ballSpawnPoints = new List<BallSpawnPoint>();
     public List<BallSplitter> ballSplitters = new List<BallSplitter>();
     public List<BallFunnel> ballFunnels = new List<BallFunnel>();
@@ -18,7 +19,7 @@ public class Level : MonoBehaviour
     {
         for (int i = 0; i < ballSpawnPoints.Count; i++)
         {
-            ballSpawnPoints[i].Init();
+            ballSpawnPoints[i].Init(this.transform);
         }
     }
 
