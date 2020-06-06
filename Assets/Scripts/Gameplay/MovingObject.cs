@@ -11,9 +11,9 @@ public class MovingObject : MonoBehaviour
     void Start()
     {
         Vector3 startPos = transform.position;
-        LeanTween.move(gameObject, moveToPos, moveTime).setEaseInOutExpo().setOnComplete(() =>
+        LeanTween.moveLocal(gameObject, moveToPos, moveTime).setEaseInOutExpo().setOnComplete(() =>
         {
-            LeanTween.move(gameObject, startPos, moveTime).setEaseInOutExpo();
+            LeanTween.moveLocal(gameObject, startPos, moveTime).setEaseInOutExpo();
         }).setLoopPingPong();
     }
 
