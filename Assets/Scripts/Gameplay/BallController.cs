@@ -16,6 +16,7 @@ public class BallController : MonoBehaviour
     public static UnityEvent announceSpawned = new UnityEvent();
     private void Awake()
     {
+        PlayAreaController.announceAngle.AddListener(OnAngleChanged);
         body = GetComponent<Rigidbody>();
         body.constraints = RigidbodyConstraints.FreezeAll;
     }
@@ -23,8 +24,6 @@ public class BallController : MonoBehaviour
     void Start()
     {
         InputController.inputStartEvent.AddListener(HandleTouchStarted);
-        InputController.inputChangeEvent.AddListener(HandleTouchMoved);
-        InputController.inputEndEvent.AddListener(HandleTouchEnded);
         announceSpawned.Invoke();
 
     }
@@ -38,17 +37,17 @@ public class BallController : MonoBehaviour
         transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
     }
 
-    private void HandleTouchEnded(Vector3 arg0)
+    private void OnAngleChanged(Vector3 angle)
     {
         
-    }
-
-    private void HandleTouchMoved(Vector3 moveChange)
-    {
-        float _moveChange = Mathf.Clamp(moveChange.x, -gameParameters.moveChangeRange, gameParameters.moveChangeRange);
-        float _addedForce = _moveChange * gameParameters.forceMultiplier;
+        //float _moveChange = Mathf.Clamp(moveChange.x, -gameParameters.moveChangeRange, gameParameters.moveChangeRange);
+        float _playAreaRotationY = Utils.WrapAngle(angle.y);
+        float _addedForce = -_playAreaRotationY * gameParameters.forceMultiplier;
+        
+        Debug.Log("Added force: " + _addedForce + "PlayAreaRot: " + _playAreaRotationY);
         
         body.AddForce(new Vector3(0f, 0f, _addedForce), ForceMode.Impulse);
+
     }
 
     private void HandleTouchStarted(Vector3 arg0)
@@ -81,7 +80,5 @@ public class BallController : MonoBehaviour
     {
         announceBallDespawned.Invoke();
         InputController.inputStartEvent.RemoveListener(HandleTouchStarted);
-        InputController.inputChangeEvent.RemoveListener(HandleTouchMoved);
-        InputController.inputEndEvent.RemoveListener(HandleTouchEnded);
     }
 }

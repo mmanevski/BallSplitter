@@ -1,6 +1,12 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Events;
 using Zenject;
+
+public class AnnounceAngle : UnityEvent<Vector3>
+{
+    
+}
 
 public class PlayAreaController : SingletonBehavior<PlayAreaController>
 {
@@ -8,7 +14,9 @@ public class PlayAreaController : SingletonBehavior<PlayAreaController>
     
     public Transform playAreaHolder;
     private Vector3 startRotation;
-
+    private float startRotY;
+    
+    public static AnnounceAngle announceAngle = new AnnounceAngle();
 
     // Start is called before the first frame update
     void Start()
@@ -24,24 +32,28 @@ public class PlayAreaController : SingletonBehavior<PlayAreaController>
         //throw new System.NotImplementedException();
     }
 
-    private void HandleTouchMoved(Vector3 moveChange)
+    private void HandleTouchMoved(Vector3 moveChangeVec)
     {
-        float _moveChange = Mathf.Clamp(moveChange.x, -gameParameters.moveChangeRange, gameParameters.moveChangeRange);
-        float _rotX = startRotation.x + _moveChange *gameParameters.rotationFactor;
+        float _moveChange = Mathf.Clamp(moveChangeVec.x, -gameParameters.moveChangeRange, gameParameters.moveChangeRange);
         
-        playAreaHolder.rotation = Quaternion.Euler(startRotation.x, -_rotX, startRotation.z);
+        float _rotY = -startRotY + _moveChange *gameParameters.rotationFactor;
+        _rotY = Utils.ClampAngle(-_rotY, -gameParameters.playAreaRotationRange, gameParameters.playAreaRotationRange);
+        Debug.Log("Rotation: " + _rotY);
+        Vector3 _newRotation = new Vector3(startRotation.x, _rotY, startRotation.z);
         
-        //playAreaHolder.RotateAround(playAreaHolder.position, Vector3.left, -moveChange.x * 0.25f);
+        if (moveChangeVec.y > 0.5f)
+            playAreaHolder.eulerAngles = new Vector3(startRotation.x, _rotY, 180f);
+
+        announceAngle.Invoke(_newRotation);
+        playAreaHolder.eulerAngles = _newRotation;
+
     }
 
     private void HandleTouchStarted(Vector3 arg0)
     {
         startRotation = playAreaHolder.rotation.eulerAngles;
+        startRotY = Utils.ClampAngle(startRotation.y, -gameParameters.playAreaRotationRange,
+            gameParameters.playAreaRotationRange);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

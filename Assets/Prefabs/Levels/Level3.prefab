@@ -136,7 +136,7 @@ Transform:
   m_GameObject: {fileID: 2582642532938141525}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: -0.57, z: 0}
-  m_LocalScale: {x: 1, y: 0.5, z: 1}
+  m_LocalScale: {x: 1, y: 0.5, z: 0.52}
   m_Children: []
   m_Father: {fileID: 8248930315829453194}
   m_RootOrder: 0
@@ -2285,7 +2285,7 @@ PrefabInstance:
     - target: {fileID: 6126337557583146516, guid: bae045b587b305a40a2e00ca0489b9e3,
         type: 3}
       propertyPath: funnelCount
-      value: 15
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6126337557583146517, guid: bae045b587b305a40a2e00ca0489b9e3,
         type: 3}
