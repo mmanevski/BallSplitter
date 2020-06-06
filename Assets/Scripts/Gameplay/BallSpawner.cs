@@ -18,6 +18,7 @@ public class BallSpawner : MonoBehaviour
         BallSplitter.splitBalls.AddListener(OnSplitBalls);
         BallSpawnPoint.requestSingleSpawn.AddListener(OnRequestSingleSpawn);
         BallPortal.requestSingleSpawn.AddListener(OnRequestSingleSpawn);
+        BallCombiner.requestSingleSpawn.AddListener(OnRequestSingleSpawn);
         LevelManager.levelLoaded.AddListener(OnLevelLoaded);
     }
 
@@ -66,6 +67,14 @@ public class BallSpawner : MonoBehaviour
             _newBall.Init(spawnPos, _scaleFactor, activate, parentSplitter);
             yield return new WaitForSeconds(0.05f);
         }
-
+    }
+    
+    void OnDestroy()
+    {
+        BallSplitter.splitBalls.RemoveListener(OnSplitBalls);
+        BallSpawnPoint.requestSingleSpawn.RemoveListener(OnRequestSingleSpawn);
+        BallPortal.requestSingleSpawn.RemoveListener(OnRequestSingleSpawn);
+        BallCombiner.requestSingleSpawn.RemoveListener(OnRequestSingleSpawn);
+        LevelManager.levelLoaded.RemoveListener(OnLevelLoaded);
     }
 }

@@ -23,6 +23,7 @@ public class PlayAreaController : SingletonBehavior<PlayAreaController>
     private bool isFlipped = false;
     
     public static AnnounceAngle announceAngle = new AnnounceAngle();
+    public static UnityEvent playAreaFlipped = new UnityEvent();
 
     // Start is called before the first frame update
     void Start()
@@ -73,7 +74,7 @@ public class PlayAreaController : SingletonBehavior<PlayAreaController>
 
         float flipAngle = isFlipped ? 0f : 180f;
         
-        Vector3 _newRotation = new Vector3(startRotation.x, startRotation.y, flipAngle);
+        Vector3 _newRotation = new Vector3(0f, 0f, flipAngle);
 
         while (elapsedTime < flipTime)
         {
@@ -82,6 +83,7 @@ public class PlayAreaController : SingletonBehavior<PlayAreaController>
             playAreaHolder.eulerAngles = Vector3.Slerp(startRotation, _newRotation, elapsedTime/flipTime);
         }
         isFlipped = !isFlipped;
+        playAreaFlipped.Invoke();
         GameManager.gameState = GameState.Playing;
 
         yield return null;

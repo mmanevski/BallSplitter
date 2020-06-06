@@ -14,7 +14,9 @@ public class BallFunnel : MonoBehaviour
 {
     public TextMeshPro ballCounter;
     public int funnelCount = 3;
-    
+
+    public bool isGate = false;
+
     public static FunnelFull funnelFull  = new FunnelFull();
     public static UnityEvent announceBallInFunnel  = new UnityEvent();
     
@@ -34,7 +36,9 @@ public class BallFunnel : MonoBehaviour
     {
         if (other.CompareTag(ObjectTags.ballTag))
         {
+
             other.GetComponent<BallController>().Despawn();
+
             funnelCount--;
             if (!isFull)
             { 
@@ -44,6 +48,7 @@ public class BallFunnel : MonoBehaviour
             if (funnelCount == 0)
             {
                 isFull = true;
+                //gameObject.SetActive(isGate);
                 funnelFull.Invoke(this);
             }
 
