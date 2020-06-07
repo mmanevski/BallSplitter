@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
 
     private void OnRequestLevelReset()
     {
-        SceneManager.LoadScene(0);
+        ResetGame();
     }
 
     private void OnRequestNextLevel()
@@ -108,7 +108,7 @@ public class GameManager : MonoBehaviour
         BallController.announceSpawned.AddListener(OnAnnounceBallSpawned);
         BallController.announceBallDespawned.AddListener(OnAnnounceBallDespawned);
         LevelCompletePanel.requestNextLevel.AddListener(OnRequestNextLevel);
-        //LevelFailedPanel.requestLevelReset.AddListener(OnRequestLevelReset);
+        LevelFailedPanel.requestLevelReset.AddListener(OnRequestLevelReset);
         LevelManager.levelLoaded.AddListener(OnLevelLoaded);
     }
 
@@ -120,7 +120,7 @@ public class GameManager : MonoBehaviour
         BallController.announceSpawned.RemoveListener(OnAnnounceBallSpawned);
         BallController.announceBallDespawned.RemoveListener(OnAnnounceBallDespawned);
         LevelCompletePanel.requestNextLevel.RemoveListener(OnRequestNextLevel);
-        //LevelFailedPanel.requestLevelReset.RemoveListener(OnRequestLevelReset);
+        LevelFailedPanel.requestLevelReset.RemoveListener(OnRequestLevelReset);
         LevelManager.levelLoaded.RemoveListener(OnLevelLoaded);
         ResetButton.requestLevelReset.RemoveListener(OnRequestLevelReset);
     }
