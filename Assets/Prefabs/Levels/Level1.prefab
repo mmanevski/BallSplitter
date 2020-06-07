@@ -366,7 +366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 604300c45bcffc04f8723258fced1bc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isFlippable: 1
+  isFlippable: 0
   ballSpawnPoints:
   - {fileID: 4499049043658676595}
   ballSplitters:

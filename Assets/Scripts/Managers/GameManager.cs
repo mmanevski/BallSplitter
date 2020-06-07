@@ -13,6 +13,9 @@ public class GameOver : UnityEvent<bool>
 public class UpdateScore : UnityEvent<int>
 {
 }
+public class RequestNewlevel : UnityEvent<int>
+{
+}
 
 public class GameManager : MonoBehaviour
 {
@@ -29,7 +32,7 @@ public class GameManager : MonoBehaviour
 
     public static GameOver gameOver = new GameOver();
     public static UpdateScore updateScore = new UpdateScore();
-    public static UnityEvent rewquestNewLevel = new UnityEvent();
+    public static RequestNewlevel requestNewLevel = new RequestNewlevel();
 
     public void Awake()
     {
@@ -44,7 +47,7 @@ public class GameManager : MonoBehaviour
 
     public void Start()
     {
-        rewquestNewLevel.Invoke();
+        requestNewLevel.Invoke(-1);
         
     }
 
@@ -56,7 +59,7 @@ public class GameManager : MonoBehaviour
     private void OnRequestNextLevel()
     {
         ResetGame();
-        rewquestNewLevel.Invoke();
+        requestNewLevel.Invoke(-1);
     }
 
     private void ResetGame()
@@ -105,16 +108,20 @@ public class GameManager : MonoBehaviour
         BallController.announceSpawned.AddListener(OnAnnounceBallSpawned);
         BallController.announceBallDespawned.AddListener(OnAnnounceBallDespawned);
         LevelCompletePanel.requestNextLevel.AddListener(OnRequestNextLevel);
-        LevelFailedPanel.requestLevelReset.AddListener(OnRequestLevelReset);
+        //LevelFailedPanel.requestLevelReset.AddListener(OnRequestLevelReset);
         LevelManager.levelLoaded.AddListener(OnLevelLoaded);
     }
+
+
+
     private void RemoveListeners()
     {
         BallFunnel.announceBallInFunnel.RemoveListener(OnAnnounceBallInFunnel);
         BallController.announceSpawned.RemoveListener(OnAnnounceBallSpawned);
         BallController.announceBallDespawned.RemoveListener(OnAnnounceBallDespawned);
         LevelCompletePanel.requestNextLevel.RemoveListener(OnRequestNextLevel);
-        LevelFailedPanel.requestLevelReset.RemoveListener(OnRequestLevelReset);
+        //LevelFailedPanel.requestLevelReset.RemoveListener(OnRequestLevelReset);
         LevelManager.levelLoaded.RemoveListener(OnLevelLoaded);
+        ResetButton.requestLevelReset.RemoveListener(OnRequestLevelReset);
     }
 }

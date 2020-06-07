@@ -28,16 +28,28 @@ public class LevelManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameManager.rewquestNewLevel.AddListener(OnRequestNewLevel);
+        GameManager.requestNewLevel.AddListener(OnRequestNewLevel);
+        LevelButton.requestNewLevel.AddListener(OnRequestNewLevel);
+        ResetButton.requestLevelReset.AddListener(OnRequestLevelReset);
+        LevelFailedPanel.requestLevelReset.AddListener(OnRequestLevelReset);
 
     }
 
-    private void OnRequestNewLevel()
+    private void OnRequestLevelReset()
+    {
+        OnRequestNewLevel(currentLevel);
+    }
+
+    private void OnRequestNewLevel(int levelNum)
     {
         if (currentLevelObject != null)
             Destroy(currentLevelObject);
-        
-        currentLevel++;
+
+        if (levelNum == -1)
+            currentLevel++;
+        else
+            currentLevel = levelNum;
+                
         if (currentLevel >= levelsList.allLevels.Count)
             currentLevel = 0;
         currentLevelDefine = levelsList.allLevels[currentLevel];
@@ -54,6 +66,9 @@ public class LevelManager : MonoBehaviour
     private void OnDestroy()
     {
 
-        GameManager.rewquestNewLevel.RemoveListener(OnRequestNewLevel);
+        GameManager.requestNewLevel.RemoveListener(OnRequestNewLevel);
+        LevelButton.requestNewLevel.RemoveListener(OnRequestNewLevel);
+        ResetButton.requestLevelReset.RemoveListener(OnRequestLevelReset);
+        LevelFailedPanel.requestLevelReset.AddListener(OnRequestLevelReset);
     }
 }
