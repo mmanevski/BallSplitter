@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minBallScale: 0.25
   maxBallScale: 0.5
+  flipAreaTreshold: 0.2
   moveChangeRange: 0.5
   forceMultiplier: 0.3
-  rotationFactor: 40
+  rotationFactor: 200
   playAreaRotationRange: 20
