@@ -43,6 +43,9 @@ public class BallSplitter : MonoBehaviour
 
     private void BumpTextBkg()
     {
+        if (multiplierBkg.gameObject.LeanIsTweening())
+            return;
+        
         float _scaleAdd = 0.2f;
         float _bumpTime = 0.1f;
         Vector3 _startScale = multiplierBkg.transform.localScale;

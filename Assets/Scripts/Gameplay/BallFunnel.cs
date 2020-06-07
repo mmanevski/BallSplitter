@@ -58,6 +58,9 @@ public class BallFunnel : MonoBehaviour
     
     private void BumpTextBkg()
     {
+        if (counterBkg.gameObject.LeanIsTweening())
+            return;
+        
         float _scaleAdd = 0.2f;
         float _bumpTime = 0.1f;
         Vector3 _startScale = counterBkg.transform.localScale;

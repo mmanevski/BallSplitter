@@ -314,6 +314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballCounter: {fileID: 1965356661863173113}
+  counterBkg: {fileID: 8544113690386478406}
   ballsNeeded: 5
 --- !u!65 &1965356661881014327
 BoxCollider:

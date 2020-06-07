@@ -9,6 +9,7 @@ public class BallCombiner : MonoBehaviour
 {
     [Inject] private GameParameters gameParameters;
     public TextMeshPro ballCounter;
+    public GameObject counterBkg;
     public int ballsNeeded = 5;
     public static RequestSingleSpawn requestSingleSpawn = new RequestSingleSpawn();
 
@@ -24,6 +25,7 @@ public class BallCombiner : MonoBehaviour
         if (other.CompareTag(ObjectTags.ballTag))
         {
             other.GetComponent<BallController>().Despawn();
+            BumpTextBkg();
             ballsNeeded--;
             if (!isFull)
             { 
@@ -37,5 +39,18 @@ public class BallCombiner : MonoBehaviour
             }
 
         }
+    }
+    
+    private void BumpTextBkg()
+    {
+        if (counterBkg.gameObject.LeanIsTweening())
+            return;
+        
+        float _scaleAdd = 0.2f;
+        float _bumpTime = 0.1f;
+        Vector3 _startScale = counterBkg.transform.localScale;
+        Vector3 _scaleTo = new Vector3(_startScale.x +_scaleAdd, _startScale.x +_scaleAdd, 1f);
+        LeanTween.scale(counterBkg, _scaleTo, _bumpTime).setEaseInBounce().setOnComplete(
+            () => { LeanTween.scale(counterBkg, _startScale, _bumpTime);});
     }
 }
