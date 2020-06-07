@@ -32,11 +32,11 @@ public class PlayAreaController : SingletonBehavior<PlayAreaController>
         InputController.inputChangeEvent.AddListener(HandleTouchMoved);
         InputController.inputEndEvent.AddListener(HandleTouchEnded);
         LevelManager.levelLoaded.AddListener(OnLevelLoaded);
-        
     }
 
     private void OnLevelLoaded(Level level)
     {
+        transform.rotation = Quaternion.identity;
         currentLevel = level;
     }
 

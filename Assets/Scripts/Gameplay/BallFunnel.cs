@@ -13,6 +13,7 @@ public class FunnelFull : UnityEvent<BallFunnel>
 public class BallFunnel : MonoBehaviour
 {
     public TextMeshPro ballCounter;
+    public GameObject counterBkg;
     public int funnelCount = 3;
 
     public bool isGate = false;
@@ -38,7 +39,7 @@ public class BallFunnel : MonoBehaviour
         {
 
             other.GetComponent<BallController>().Despawn();
-
+            BumpTextBkg();
             funnelCount--;
             if (!isFull)
             { 
@@ -53,5 +54,15 @@ public class BallFunnel : MonoBehaviour
             }
 
         }
+    }
+    
+    private void BumpTextBkg()
+    {
+        float _scaleAdd = 0.2f;
+        float _bumpTime = 0.1f;
+        Vector3 _startScale = counterBkg.transform.localScale;
+        Vector3 _scaleTo = new Vector3(_startScale.x +_scaleAdd, _startScale.x +_scaleAdd, 1f);
+        LeanTween.scale(counterBkg, _scaleTo, _bumpTime).setEaseInBounce().setOnComplete(
+            () => { LeanTween.scale(counterBkg, _startScale, _bumpTime);});
     }
 }
