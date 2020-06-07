@@ -42,6 +42,7 @@ public class LevelManager : MonoBehaviour
 
     private void OnRequestNewLevel(int levelNum)
     {
+        PlayAreaController.Instance.playAreaHolder.rotation = Quaternion.identity;
         if (currentLevelObject != null)
             Destroy(currentLevelObject);
 

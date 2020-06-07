@@ -36,7 +36,6 @@ public class PlayAreaController : SingletonBehavior<PlayAreaController>
 
     private void OnLevelLoaded(Level level)
     {
-        transform.rotation = Quaternion.identity;
         currentLevel = level;
     }
 
